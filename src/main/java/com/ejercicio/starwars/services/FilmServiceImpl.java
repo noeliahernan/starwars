@@ -18,16 +18,30 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     protected PersonRepository personRepository;
 
+    /**
+     * Almacena una película
+     * @param film
+     * @return
+     */
     @Override
     public Film save(Film film) {
         return this.filmRepository.save(film);
     }
 
+    /**
+     * Recupera un listado de películas
+     * @return
+     */
     @Override
     public List<Film> getFilms() {
         return this.filmRepository.findAll();
     }
 
+    /**
+     * Recupera las películas en las que aparece una persona
+     * @param idPerson
+     * @return
+     */
     @Override
     public List<Film> getFilmsByPerson(Long idPerson) {
         Optional<Person> person = this.personRepository.findById(idPerson);

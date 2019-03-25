@@ -14,14 +14,25 @@ import java.util.List;
 
 @RestController
 public class PersonController {
+
     @Autowired
     protected PersonService personService;
 
+    /**
+     * Recupera un listado de personas
+     * @return
+     */
     @RequestMapping(value = "getPeople", method = RequestMethod.GET)
     public List<Person> getPeople() {
         return this.personService.getPeople();
     }
 
+    /**
+     * Recupera las naves que más aparecen y las personas que más la conducen
+     * @param filmsSeleccionadas
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "getPeopleMaxApaByFilm", method = RequestMethod.POST)
     public List<String> getPeopleMaxApaByFilm(@RequestBody List<Long> filmsSeleccionadas) throws Exception {
 

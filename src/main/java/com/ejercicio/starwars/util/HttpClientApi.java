@@ -15,6 +15,11 @@ import java.io.InputStreamReader;
 
 @Component
 public class HttpClientApi {
+    /**
+     * Método que crea un cliente para conectar con el api
+     * @param urlInicial
+     * @return
+     */
     public static JsonArray getDataApi(String urlInicial) {
         JsonObject jsonObject = new JsonObject();
         JsonArray results = null;
@@ -29,13 +34,17 @@ public class HttpClientApi {
             JsonParser parser = new JsonParser();
             jsonObject = parser.parse(new InputStreamReader(resultadoHttp.getEntity().getContent(), "UTF-8")).getAsJsonObject();
             results = jsonObject.getAsJsonArray("results");
+            //Cerramos el cliente
             ((CloseableHttpClient) client).close();
+
+            //Creamos otro cliente porque, cuando hay más registros páginados tenemos que volver a llamar a la api para
+            //recuperar la siguiente página
             while (results.size() < jsonObject.get("count").getAsLong()) {
-                HttpClient clienta = HttpClientBuilder.create().build();
+                HttpClient clientAux = HttpClientBuilder.create().build();
                 String url = jsonObject.get("next").getAsString();
-                jsonObject = parser.parse(new InputStreamReader(clienta.execute(new HttpGet(url)).getEntity().getContent(), "UTF-8")).getAsJsonObject();
+                jsonObject = parser.parse(new InputStreamReader(clientAux.execute(new HttpGet(url)).getEntity().getContent(), "UTF-8")).getAsJsonObject();
                 results.addAll(jsonObject.getAsJsonArray("results"));
-                ((CloseableHttpClient) clienta).close();
+                ((CloseableHttpClient) clientAux).close();
             }
             System.out.println("Url: " +  urlInicial + " Total resultados: " + results.size());
         } catch (IOException io) {

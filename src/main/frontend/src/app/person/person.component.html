@@ -1,7 +1,7 @@
 <div class="card" style="width: 18rem;">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item font-weight-bold">Películas en las que aparece el personaje {{idPerson}}</li>
+        <li *ngIf="idPerson > 0" class="list-group-item font-weight-bold">Películas en las que aparece el personaje {{idPerson}}</li>
         <li *ngFor="let item of filmsByPeople" class="list-group-item">{{item.title}}</li>
-        <li class="list-group-item font-weight-bold">Total: {{filmsByPeople.length}}</li>
+        <li *ngIf="filmsByPeople.length > 0" class="list-group-item font-weight-bold">Total: {{filmsByPeople.length}}</li>
     </ul>
 </div>

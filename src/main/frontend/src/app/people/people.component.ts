@@ -32,8 +32,6 @@ export class PeopleComponent implements OnInit {
    * @param person 
    */
   public detall(person: Person) {
-    console.log(person.idPerson);
-    console.log(this._router);
     this._router.navigate(['detallPerson', person.idPerson]);
   }
 }

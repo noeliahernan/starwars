@@ -31,11 +31,16 @@ public class StarWarsApiServiceImpl implements StarWarApiService {
 
     @Override
     @EventListener(ApplicationReadyEvent.class)
+    /**
+     * Se encarga de llamar a la api y llenar las tablas
+     */
     public void importDataStarWars() {
+        //Llama a la api y recupera un mapa con cada una de las tablas
         Map<String, JsonArray> dataStarWars = getData();
         if (!dataStarWars.isEmpty()) {
             JsonArray starships = dataStarWars.get(STARSHIPS);
             if (starships.size() > 0) {
+                //Inserta los datos en la tabla
                 insertDataStarships(starships);
             }
             JsonArray people = dataStarWars.get(PEOPLE);
@@ -46,39 +51,51 @@ public class StarWarsApiServiceImpl implements StarWarApiService {
             if (films.size() > 0) {
                 insertDataFilms(films);
             }
-            List<Long> filmSeleccionados = new ArrayList<>();
-            filmSeleccionados.add(1L);
-            filmSeleccionados.add(3L);
-            filmSeleccionados.add(7L);
         }
     }
 
 
+    /**
+     * Método que inserta las películas de la api en su tabla correspondiente
+     * @param films
+     */
     @Override
     public void insertDataFilms(JsonArray films) {
+        //Recibimos una lista de jsonArray de películas y las recorremos
         films.forEach(film -> {
+            //Creamos un objeto json de cada registro para después mapearlo con su clase
             Gson gson = new GsonBuilder().create();
             Film filmObject = gson.fromJson(film, Film.class);
+            //Recuperamos el identificador de la url y se lo pasamos al objeto
             String id = (filmObject.getUrl().replaceAll(URL_FILMS,"")).replaceAll("/","");
             filmObject.setIdFilm(Long.parseLong(id));
+            //Creamos un array de personas para almacenar los personajes de las películas
             Set<Person> people = new HashSet<>();
+            //Lo recorremos y sacamos el id de cada personaje para después buscar por su identificador en su tabla
             ((JsonObject) film).getAsJsonArray("characters").forEach(character->{
                 String idPerson = ( character.getAsString().replaceAll(URL_PEOPLE,"")).replaceAll("/","");
                 people.add(personService.findById(Long.parseLong(idPerson)));
             });
+            //Hacemos lo mismo con las naves
             Set<Starship> starships = new HashSet<>();
             ((JsonObject) film).getAsJsonArray("starships").forEach(starship->{
                 String idStarship = ( starship.getAsString().replaceAll(URL_STARSHIPS,"")).replaceAll("/","");
                 starships.add(starshipService.findById(Long.parseLong(idStarship)));
             });
+            //Añadimos al objeto tanto las naves como las personas y guardamos.
             filmObject.setPeople(people);
             filmObject.setStarshipsFilms(starships);
             filmService.save(filmObject);
         });
     }
 
+    /**
+     * Método que inserta las personas en su correspondiente tabla
+     * @param people
+     */
     @Override
     public void insertDataPeople(JsonArray people) {
+        //Recorremos el array de json y lo mapeamos a una clase persona, recuperamos sus naves y se las mapeamos a la clase persona
         people.forEach(person -> {
             Gson gson = new GsonBuilder().create();
             Person personObject = gson.fromJson(person, Person.class);
@@ -94,6 +111,10 @@ public class StarWarsApiServiceImpl implements StarWarApiService {
         });
     }
 
+    /**
+     * Inserta la información de las naves espaciales en su correspondiente tabla
+     * @param starships
+     */
     @Override
     public void insertDataStarships(JsonArray starships) {
         starships.forEach(starship -> {
@@ -105,6 +126,11 @@ public class StarWarsApiServiceImpl implements StarWarApiService {
         });
     }
 
+
+    /**
+     * Conecta con la api a través de un cliente
+     * @return
+     */
     private Map<String, JsonArray> getData() {
         Map<String, JsonArray> dataStarWars = new HashMap<>();
         dataStarWars.put(FILMS, HttpClientApi.getDataApi(URL_FILMS));

@@ -15,10 +15,13 @@ export class PersonComponent implements OnInit {
   idPerson: number;
   ngOnInit() {
     this.idPerson = this._route.snapshot.params['idPerson'];
+    this.load();
+  }
+
+  async load(){
     //Cargamos las peliculas de la persona seleccionada
-    this._peopleService.getFilmsByPerson(this.idPerson).subscribe(res => {
+    await this._peopleService.getFilmsByPerson(this.idPerson).subscribe(res => {
       this.filmsByPeople = res;
     });
   }
-
 }
