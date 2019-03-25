@@ -1,0 +1,39 @@
+<h2 class="pb-5"> Starships</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Starship</th>
+            <th scope="col">Name</th>
+            <th scope="col">Model</th>
+            <th scope="col">Manufacturer</th>
+            <th scope="col">Cost in credits</th>
+            <th scope="col">Length</th>
+            <th scope="col">Max atmosphering speed</th>
+            <th scope="col">Crew</th>
+            <th scope="col">Passengers</th>
+            <th scope="col">Cargo Capacity</th>
+            <th scope="col">Consumables</th>
+            <th scope="col">Hiperdrive rating</th>
+            <th scope="col">Mglt</th>
+            <th scope="col">Starship Class</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let starship of starships">
+            <th scope="row">{{starship.idStarship}}</th>
+            <td>{{starship.name}}</td>
+            <td>{{starship.model}}</td>
+            <td>{{starship.manufacturer}}</td>
+            <td>{{starship.cost_in_credits}}</td>
+            <td>{{starship.length}}</td>
+            <td>{{starship.max_atmosphering_speed}}</td>
+            <td>{{starship.crew}}</td>
+            <td>{{starship.passengers}}</td>
+            <td>{{starship.cargo_capacity}}</td>
+            <td>{{starship.consumables}}</td>
+            <td>{{starship.hiperdrive_rating}}</td>
+            <td>{{starship.mglt}}</td>
+            <td>{{starship.starship_class}}</td>
+        </tr>
+    </tbody>
+</table>

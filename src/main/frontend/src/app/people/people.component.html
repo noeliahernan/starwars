@@ -1,0 +1,27 @@
+<h2 class="pb-5"> Characters</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Character</th>
+            <th scope="col">Name</th>
+            <th scope="col">Mass</th>
+            <th scope="col">Hair Color</th>
+            <th scope="col">Skin Color</th>
+            <th scope="col">Eye Color</th>
+            <th scope="col">Birth Year</th>
+            <th scope="col">Gender</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of people" (click)="detall(person)">
+            <th scope="row">{{person.idPerson}}</th>
+            <td>{{person.name}}</td>
+            <td>{{person.mass}}</td>
+            <td>{{person.hair_color}}</td>
+            <td>{{person.skin_color}}</td>
+            <td>{{person.eye_color}}</td>
+            <td>{{person.birth_year}}</td>
+            <td>{{person.gender}}</td>
+        </tr>
+    </tbody>
+</table>

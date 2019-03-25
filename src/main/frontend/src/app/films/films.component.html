@@ -1,0 +1,34 @@
+<h2 class="pb-5"> Films</h2>
+<button type="button" (click)="getMaxApariciones()" class="btn btn-dark mb-5">Statistics</button>
+<div *ngIf="maxAparList.length > 0" class="alert alert-info" role="alert">
+    <div class="pb-3"> Las naves que más aparecen en las películas seleccionadas y sus pilotos son: </div>
+    <div *ngFor="let item of maxAparList">{{item}}</div>
+</div>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+    <div> {{error}}</div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th><input type="checkbox" [checked]="multiSelect" (change)="onCheckboxAll($event)" /></th>
+            <th scope="col"></th>
+            <th scope="col">Film</th>
+            <th scope="col">Tiltle</th>
+            <th scope="col">Episode</th>
+            <th scope="col">Opening Crwl</th>
+            <th scope="col">Director</th>
+            <th scope="col">Producer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let film of films">
+            <td><input type="checkbox" [checked]="multiSelect" (change)="onCheckboxStateChange($event, film.idFilm)" class="form-check-input"></td>
+            <th scope="row">{{film.idFilm}}</th>
+            <td>{{film.title}}</td>
+            <td>{{film.episode_id}}</td>
+            <td>{{film.opening_crawl}}</td>
+            <td>{{film.director}}</td>
+            <td>{{film.producer}}</td>
+        </tr>
+    </tbody>
+</table>
