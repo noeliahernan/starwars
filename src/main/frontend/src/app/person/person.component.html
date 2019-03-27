@@ -4,4 +4,5 @@
         <li *ngFor="let item of filmsByPeople" class="list-group-item">{{item.title}}</li>
         <li *ngIf="filmsByPeople.length > 0" class="list-group-item font-weight-bold">Total: {{filmsByPeople.length}}</li>
     </ul>
+    <button type="button" [routerLink]="['/people']" class="btn btn-dark">Back</button>
 </div>

@@ -5,13 +5,19 @@ import com.ejercicio.starwars.model.Film;
 import com.ejercicio.starwars.model.Person;
 import com.ejercicio.starwars.model.Starship;
 import com.ejercicio.starwars.util.HttpClientApi;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class StarWarsApiServiceImpl implements StarWarApiService {
@@ -30,7 +36,7 @@ public class StarWarsApiServiceImpl implements StarWarApiService {
     public StarshipService starshipService;
 
     @Override
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ContextRefreshedEvent.class)
     /**
      * Se encarga de llamar a la api y llenar las tablas
      */
